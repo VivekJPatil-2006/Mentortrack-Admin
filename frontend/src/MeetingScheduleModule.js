@@ -84,24 +84,38 @@ export const MeetingScheduleModule = ({ setAlert }) => {
 }, [selectedDept, selectionMode, allTeachers, fetchTeachersByDepartment]);
 
 
-  const fetchTeachersByDepartment = useCallback(async (department) => {
-    setLoading(true);
-    try {
-      const q = query(collection(db, 'teachers'), where('department', '==', department));
-      const snapshot = await getDocs(q);
-      const teachersList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setFilteredTeachers(teachersList);
-    } catch (error) {
-      console.error("Error fetching teachers:", error);
-      setAlert({
-        open: true,
-        message: 'Error fetching teachers. Please try again.',
-        severity: 'error'
-      });
-    } finally {
-      setLoading(false);
-    }
-  },[setAlert]);
+  const [selectionMode, setSelectionMode] = useState('department');
+
+
+// ✅ PUT FUNCTION HERE
+const fetchTeachersByDepartment = useCallback(async (department) => {
+  setLoading(true);
+  try {
+    const q = query(collection(db, 'teachers'), where('department', '==', department));
+    const snapshot = await getDocs(q);
+    const teachersList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    setFilteredTeachers(teachersList);
+  } catch (error) {
+    console.error("Error fetching teachers:", error);
+    setAlert({
+      open: true,
+      message: 'Error fetching teachers. Please try again.',
+      severity: 'error'
+    });
+  } finally {
+    setLoading(false);
+  }
+}, [setAlert]);
+
+
+// ✅ THEN useEffect AFTER THIS
+useEffect(() => {
+  if (selectionMode === 'department' && selectedDept) {
+    fetchTeachersByDepartment(selectedDept);
+  } else if (selectionMode === 'custom') {
+    setFilteredTeachers(allTeachers);
+  }
+}, [selectedDept, selectionMode, allTeachers, fetchTeachersByDepartment]);
 
 
   const handleTeacherSelection = (teacher) => {
