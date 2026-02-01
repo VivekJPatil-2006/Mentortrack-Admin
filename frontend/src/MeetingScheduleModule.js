@@ -84,7 +84,7 @@ export const MeetingScheduleModule = ({ setAlert }) => {
 }, [selectedDept, selectionMode, allTeachers, fetchTeachersByDepartment]);
 
 
-  const [selectionMode, setSelectionMode] = useState('department');
+  //const [selectionMode, setSelectionMode] = useState('department');
 
 
 // ✅ PUT FUNCTION HERE
