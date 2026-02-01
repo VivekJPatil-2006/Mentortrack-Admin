@@ -16,15 +16,18 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 // ---------- Firebase Admin Initialization ----------
 try {
-  const serviceAccount = require('./firebase-service-account.json');
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    })
   });
+
   console.log('✅ Firebase Admin initialized successfully');
 } catch (error) {
   console.error('❌ Firebase Admin initialization failed:', error);
 }
-
 const db = admin.firestore();
 
 // ---------- Gemini AI Initialization ----------
