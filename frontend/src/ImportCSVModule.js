@@ -12,7 +12,6 @@ import {
   Fade,
   Zoom,
   useTheme,
-  Divider
 } from '@mui/material';
 import { CloudUpload, Person, Group, GetApp, Description } from '@mui/icons-material';
 import Papa from 'papaparse';

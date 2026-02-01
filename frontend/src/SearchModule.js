@@ -13,8 +13,6 @@ import {
   Paper,
   Divider,
   useTheme,
-  Fade,
-  Zoom,
   InputAdornment,
   CircularProgress,
   Tabs,
@@ -24,7 +22,7 @@ import {
   FormControl,
   InputLabel
 } from '@mui/material';
-import { Search, Person, School, Email, Phone, Home, Groups, Badge, Info, Description, SupervisorAccount } from '@mui/icons-material';
+import { Search, Person, School, Email, Phone, Home, Groups, Badge, SupervisorAccount } from '@mui/icons-material';
 import { doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from './firebase';
 import { motion } from 'framer-motion';

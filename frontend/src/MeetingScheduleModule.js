@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Paper,
@@ -76,14 +76,15 @@ export const MeetingScheduleModule = ({ setAlert }) => {
   }, []);
 
   useEffect(() => {
-    if (selectionMode === 'department' && selectedDept) {
-      fetchTeachersByDepartment(selectedDept);
-    } else if (selectionMode === 'custom') {
-      setFilteredTeachers(allTeachers);
-    }
-  }, [selectedDept, selectionMode, allTeachers]);
+  if (selectionMode === 'department' && selectedDept) {
+    fetchTeachersByDepartment(selectedDept);
+  } else if (selectionMode === 'custom') {
+    setFilteredTeachers(allTeachers);
+  }
+}, [selectedDept, selectionMode, allTeachers, fetchTeachersByDepartment]);
 
-  const fetchTeachersByDepartment = async (department) => {
+
+  const fetchTeachersByDepartment = useCallback(async (department) => {
     setLoading(true);
     try {
       const q = query(collection(db, 'teachers'), where('department', '==', department));
@@ -100,7 +101,8 @@ export const MeetingScheduleModule = ({ setAlert }) => {
     } finally {
       setLoading(false);
     }
-  };
+  },[setAlert]);
+
 
   const handleTeacherSelection = (teacher) => {
     setSelectedTeachers(prev => {
